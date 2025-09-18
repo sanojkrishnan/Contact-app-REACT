@@ -1,18 +1,30 @@
-import React from 'react'
-import user from "../images/contact image.jpg"
+import React from "react";
+import user from "../images/contact image.jpg";
+import { Link } from "react-router-dom"; //for linking routes and navigation between pages
 
 function ContactCard(props) {
-    const {id, name, email} = props.item; //destructuring the props object to get the values.
+  const { id, name, email } = props.item; //destructuring the props object to get the values.
   return (
     <div className="item" key={id}>
-        <img className='ui avatar image' src={user} alt='user image' />
-        <div className="content">
+      <img className="ui avatar image" src={user} alt="user image" />
+      <div className="content">
+        <Link
+          to={`/contact/${id}`}
+          state={{ contact: props.item }}
+        >
+          {/*we can pass values using state key in the link */}
           <div className="header">{name}</div>
           <div className="description">{email}</div>
-          <i className="trash alternate outline icon" style={{cursor:"pointer", color:"red", marginTop:"7px" }} onClick={() => {props.clickHandler(id)}} ></i>
-        </div>
+        </Link>
+
+        <Link to={`/delete/${id}`} state={{ contact: props.item }}><i
+          className="trash alternate outline icon"
+          style={{ cursor: "pointer", color: "red", marginTop: "7px" }}
+        ></i>
+        </Link>
+      </div>
     </div>
-  )
+  );
 }
 
-export default ContactCard
+export default ContactCard;

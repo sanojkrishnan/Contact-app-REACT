@@ -3,7 +3,9 @@ import "./App.css"; //css style import
 import Header from "./Header"; //Header component import
 import AddContact from "./AddContact"; //AddContact component import
 import ContactList from "./ContactList"; //ContactList component import
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"; // react-router-dom is a package that is used to create routing pages in react.
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // react-router-dom is a package that is used to create routing pages in react.
+import ContactDetail from "./ContactDetail";
+import DeleteContact from "./DeleteContact";
 //aliasing BrowserRouter as Router for easier use.
 
 //-------------------------All Imports are done here-------------------------//
@@ -54,20 +56,25 @@ function App() {
   return (
     <>
       <div className="ui container">
-        <Router >  {/*adding all the components inside the router component will create a route */}
-
+        <Router>
+          {/*adding all the components inside the router component will create a route */}
           <Header />
-
-          <Switch> {/*Switch is used to group the routes and only one route will be rendered at a time */}
-          <Route path="/Add-contact" Component={AddContact}/> {/*Route is giving the path to the separate component that in separate pages */}
-          <Route path="/" Component={ContactList}/>
-          </Switch>
-
-          <AddContact addContactHandler={addContactHandler} />
-          <ContactList
-            contacts={contacts}
-            getContactId={removeContactHandler}
-          />
+          <Routes>
+            {/*Routes is used to group the routes and only one route will be rendered at a time */}
+            <Route
+              path="/Add-contact"
+              element={<AddContact addContactHandler={addContactHandler} />}
+            />
+            {/*Route is giving the path to the separate component that in separate pages */}
+            {/*element is used to pass props to the component */}
+            <Route path="/" element={<ContactList contacts={contacts} />} />
+            <Route path="/contact/:id" element={<ContactDetail />} />
+            {/*:id is a route parameter that will match the id of the contact */}
+            <Route
+              path="/delete/:id"
+              element={<DeleteContact getContactId={removeContactHandler} />}
+            />
+          </Routes>
         </Router>
       </div>
     </>
