@@ -1,27 +1,24 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-function AddContact({ addContactHandler }) {
-  const [state, setState] = useState({ name: "", email: "" });
-  const navigate = useNavigate(); // Hook to programmatically navigate to different routes
+function EditContact({ editContactHandler }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const {name, email, id} = location.state.contact //destructuring the contact object passed from the Link component in ContactCard.jsx
 
-  // Function to handle form submission
+  const [state, setState] = useState({name, email});
 
-  const add = (event) => {
+
+  const update = (event) => {
     event.preventDefault();
-    if (state.name.trim() === "" || state.email.trim() === "") {
-      alert("All the fields are mandatory!");
-      return;
-    }
-    addContactHandler(state);
-    setState({ name: "", email: "" });
+    editContactHandler(state , id);
     navigate("/");  // Navigate back to the contact list after adding a contact 
   };
 
   return (
     <div className='ui name'>
-      <h2>Add Contact</h2>
-      <form className='ui form' onSubmit={add}>
+      <h2>Edit Contact</h2>
+      <form className='ui form' onSubmit={update}>
         <div className="field">
           <label>Name</label>
           <input type='text' name='name' placeholder='Enter Name' value={state.name} onChange={(event) => setState({ ...state, name: event.target.value })} />
@@ -30,10 +27,10 @@ function AddContact({ addContactHandler }) {
           <label>Email</label>
           <input type='email' name='email' placeholder='Enter Email' value={state.email} onChange={(event) => setState({ ...state, email: event.target.value })} />
         </div>
-        <button className='ui button blue'>Add</button>
+        <button className='ui button blue'>Update</button>
       </form>
     </div>
   );
 }
 
-export default AddContact;
+export default EditContact;

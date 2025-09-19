@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom"; //use navigate is u
 
 function DeleteContact(props) {
   const navigate = useNavigate(); //initializing the useNavigate hook
-  const location = useLocation();
+  const location = useLocation(); //to get the state passed from the Link component in ContactCard.jsx
   const { name, email, id } = location.state.contact;
   const DeleteDetails = () => {
     props.getContactId(id);

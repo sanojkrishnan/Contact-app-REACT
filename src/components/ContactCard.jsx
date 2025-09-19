@@ -19,7 +19,12 @@ function ContactCard(props) {
 
         <Link to={`/delete/${id}`} state={{ contact: props.item }}><i
           className="trash alternate outline icon"
-          style={{ cursor: "pointer", color: "red", marginTop: "7px" }}
+          style={{ cursor: "pointer", color: "red", marginTop: "7px", marginLeft: "10px" }}
+        ></i>
+        </Link>
+        <Link to={`/edit/${id}`} state={{ contact: props.item }}><i
+          className="edit alternate outline icon"
+          style={{ cursor: "pointer", color: "blue", marginTop: "7px" }}
         ></i>
         </Link>
       </div>
