@@ -10,7 +10,7 @@ function ContactCard(props) {
       <div className="content">
         <Link
           to={`/contact/${id}`}
-          state={{ contact: props.item }}
+          state={{ contact: props.item }} //state is used for 
         >
           {/*we can pass values using state key in the link */}
           <div className="header">{name}</div>

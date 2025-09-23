@@ -31,7 +31,6 @@ function ContactList(props) {
         <h2>
           Contact List
           <Link to={"/Add-contact"}>
-            {" "}
             {/**giving the route path here "Add-contact" is the route path*/}
             <button className="ui button blue right">Add contact</button>
           </Link>

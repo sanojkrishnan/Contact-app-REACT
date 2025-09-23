@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid"; //importing uuid to generate unique ids for contacts
-import "./App.css"; //css style import
 import Header from "./Header"; //Header component import
 import AddContact from "./AddContact"; //AddContact component import
 import ContactList from "./ContactList"; //ContactList component import
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // react-router-dom is a package that is used to create routing pages in react.
+//aliasing BrowserRouter as Router for easier use.
 import ContactDetail from "./ContactDetail";
 import DeleteContact from "./DeleteContact";
 import contactExp from "../api/contacts";
 import EditContact from "./EditContact";
-//aliasing BrowserRouter as Router for easier use.
 
 //-------------------------All Imports are done here-------------------------//
 
@@ -23,7 +22,7 @@ function App() {
 
   //---------------------Adding Contacts ---------------------------//
 
-  //retrieve contacts
+  //retrieve contacts from the server
   const retrieveContacts = async () => {
     const response = await contactExp.get("/contacts"); //making a GET request to the contacts API to get all the contacts.
     return response.data; //returning the data from the response.
@@ -50,14 +49,14 @@ function App() {
         ...contact,
       };
       const response = await contactExp.post("/contacts", request); //making a POST request to the contacts API to add a new contact.
-      setContacts((prevContacts) => [{ ...response.data }, ...prevContacts]); //adding new contact to the contacts along with a unique id using uuid
+      setContacts((prevContacts) => [{ ...response.data }, ...prevContacts]); //adding new contact to the contacts
       console.log("contacts in App.jsx", contacts);
     }
   };
 
   //---------------------lifecycle methods for adding contacts---------------------------//
 
-  useEffect(() => {
+  useEffect(() => {  ///saving it in local storage as cache
     if (loaded) {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts)); //here we are using local storage to store the contacts array in the browser.
     }
