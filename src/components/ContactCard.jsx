@@ -22,7 +22,7 @@ function ContactCard(props) {
           style={{ cursor: "pointer", color: "red", marginTop: "7px", marginLeft: "10px" }}
         ></i>
         </Link>
-        <Link to={`/edit/${id}`} state={{ contact: props.item }}><i
+        <Link to={`/Edit-contact`} state={{ contact: props.item }}><i
           className="edit alternate outline icon"
           style={{ cursor: "pointer", color: "blue", marginTop: "7px" }}
         ></i>

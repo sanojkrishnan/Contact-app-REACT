@@ -7,42 +7,37 @@ const initialValues = {
   email: "",
 };
 
-function AddContact(AddOrEdit) {
+function AddContact({AddOrEdit}) {
   const navigate = useNavigate(); // Hook to programmatically navigate to different routes
 
-  const handleSubmit = () => {
-    navigate("/"); // Navigate back to the contact list after adding a contact
-    AddOrEdit();
-  };
 
   return (
     <div className="ui name">
       <h2>Add Contact</h2>
 
-      <Formik initialValues={initialValues} validationSchema={SignupValidation}>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={SignupValidation}
+        onSubmit={(values) => {
+          AddOrEdit(values); // send form data
+          navigate("/"); // go back only after successful submit
+        }}
+      >
         {({ errors }) => (
           <Form className="ui form">
             <div className="field">
               <label>Name</label>
-              <Field
-                type="text"
-                name="name"
-                placeholder="Enter Name"
-              />
+              <Field type="text" name="name" placeholder="Enter Name" />
               <br />
               {errors.name && <small>{errors.name}</small>}
             </div>
             <div className="field">
               <label>Email</label>
-              <Field
-                type="email"
-                name="email"
-                placeholder="Enter Email"
-              />
+              <Field type="email" name="email" placeholder="Enter Email" />
               <br />
-              {errors.name && <small>{errors.name}</small>}
+              {errors.email && <small>{errors.email}</small>}
             </div>
-            <button className="ui button blue" onClick={handleSubmit}>
+            <button className="ui button blue">
               Add
             </button>
           </Form>

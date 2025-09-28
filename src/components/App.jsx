@@ -9,6 +9,7 @@ import contactExp from "../api/contacts";
 import EditContact from "./EditContact";
 import AddEditContact from "../HOC/AddEditContact";
 
+
 //-------------------------All Imports are done here-------------------------//
 
 function App() {
@@ -82,10 +83,11 @@ function App() {
           <Header />
           <Routes>
             {/*Routes is used to group the routes and only one route will be rendered at a time */}
-            <Route path="/Add-contact" element={<AddEditContact />} />
+            <Route path="/Add-contact" element={<AddEditContact updateContacts={setContacts}/>} />
             {/*Route is giving the path to the separate component that in separate pages */}
             {/*element is used to pass props to the component */}
-            <Route path="/Edit-contact" element={<AddEditContact />} />
+            <Route path="/Edit-contact" element={<AddEditContact updateContacts={setContacts}/>} />
+            
             <Route
               path="/"
               element={
