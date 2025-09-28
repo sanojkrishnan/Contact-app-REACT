@@ -1,42 +1,30 @@
-import React from 'react';
-import {v4 as UUID} from 'uuid'
-import contactExp from '../api/contacts';
-import AddContact from "../components/AddContact"
-import EditContact from '../components/EditContact';
+import React from "react";
+import { useParams } from "react-router-dom";
+import AddContact from "../components/AddContact";
+import EditContact from "../components/EditContact";
+import { v4 as UUID } from "uuid";
+import contactExp from "../api/contacts";
 
 const AddEditContact = ({ updateContacts }) => {
-    
-    const addEditContactHandler = async (contact, id) => {
-    console.log("the values of  id ", id);
+  const { id } = useParams(); // get :id from route
 
-    //editing section
+  const addEditContactHandler = async (contact) => {
     if (id) {
-      const response = await contactExp.put(`/contacts/${id}`, contact); //making a PUT request to the contacts API to update the contact.
-      updateContacts((prevContacts) =>
-        prevContacts.map((item) => (item.id === id ? response.data : item))
-      );
+      const response = await contactExp.put(`/contacts/${id}`, contact);
+      updateContacts(prev => prev.map(item => (item.id === id ? response.data : item)));
+    } else {
+      const request = { id: UUID(), ...contact };
+      const response = await contactExp.post("/contacts", request);
+      updateContacts(prev => [response.data, ...prev]);
     }
-
-    //adding section
-    else {
-      console.log("the values of location ", location);
-      console.log(`New Contact Added`);
-
-      const request = {
-        id: UUID(), // generates a unique id
-        ...contact,
-      };
-      const response = await contactExp.post("/contacts", request); //making a POST request to the contacts API to add a new contact.
-      updateContacts((prev) => [response.data, ...prev]);  // ✅ update global state
   };
+
+  // Render Add or Edit form based on route param
+  return id ? (
+    <EditContact AddOrEdit={addEditContactHandler} />
+  ) : (
+    <AddContact AddOrEdit={addEditContactHandler} />
+  );
 };
 
-  return (
-    <>
-        <AddContact AddOrEdit={addEditContactHandler}/>
-        <EditContact AddOrEdit={addEditContactHandler}/>
-    </>
-  )
-}
-
-export default AddEditContact
+export default AddEditContact;

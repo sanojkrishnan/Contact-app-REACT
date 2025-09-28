@@ -30,7 +30,7 @@ function ContactList(props) {
       <div className="ui name">
         <h2>
           Contact List
-          <Link to={"/Add-contact"}>
+          <Link to={"/add-contact"}>
             {/**giving the route path here "Add-contact" is the route path*/}
             <button className="ui button blue right">Add contact</button>
           </Link>

@@ -83,7 +83,7 @@ function App() {
           <Header />
           <Routes>
             {/*Routes is used to group the routes and only one route will be rendered at a time */}
-            <Route path="/Add-contact" element={<AddEditContact updateContacts={setContacts}/>} />
+            <Route path="/add-contact" element={<AddEditContact updateContacts={setContacts}/>} />
             {/*Route is giving the path to the separate component that in separate pages */}
             {/*element is used to pass props to the component */}
             <Route path="/Edit-contact" element={<AddEditContact updateContacts={setContacts}/>} />
