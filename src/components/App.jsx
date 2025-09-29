@@ -86,7 +86,7 @@ function App() {
             <Route path="/add-contact" element={<AddEditContact updateContacts={setContacts}/>} />
             {/*Route is giving the path to the separate component that in separate pages */}
             {/*element is used to pass props to the component */}
-            <Route path="/Edit-contact" element={<AddEditContact updateContacts={setContacts}/>} />
+            <Route path="/edit-contact/:id" element={<AddEditContact updateContacts={setContacts}/>} />
             
             <Route
               path="/"

@@ -5,33 +5,38 @@ import { SignupValidation } from "../schema/signupValidation";
 function EditContact({ AddOrEdit }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { contact } = location.state; // object passed from Link
-  const { name, email, id } = contact;
+  
+  if (!location.state?.contact) {
+    navigate("/");
+    return null; // Prevent crash on refresh
+  }
 
-  const initialValues = { name, email }; // Formik needs this
+  const { name, email } = location.state.contact;
+  const initialValues = { name, email };
 
   return (
     <div className="ui name">
       <h2>Edit Contact</h2>
       <Formik
         initialValues={initialValues}
+        enableReinitialize
         validationSchema={SignupValidation}
         onSubmit={(values) => {
-          AddOrEdit(values, id); // pass id for updating
+          AddOrEdit(values); // let handler use id internally
           navigate("/");
         }}
       >
-        {({ errors }) => (
+        {({ errors, touched }) => (
           <Form className="ui form">
             <div className="field">
               <label>Name</label>
               <Field type="text" name="name" placeholder="Enter Name" />
-              {errors.name && <small>{errors.name}</small>}
+              {errors.name && touched.name && <small>{errors.name}</small>}
             </div>
             <div className="field">
               <label>Email</label>
               <Field type="email" name="email" placeholder="Enter Email" />
-              {errors.email && <small>{errors.email}</small>}
+              {errors.email && touched.email && <small>{errors.email}</small>}
             </div>
             <button className="ui button blue">Update</button>
           </Form>
