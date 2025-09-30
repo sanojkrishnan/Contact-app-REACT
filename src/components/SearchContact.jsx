@@ -1,26 +1,41 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
 
-function SearchContact() {
-      const searchHandler = (searchTerm) => {
-    console.log(searchTerm);
-    setSearchTerm(searchTerm);
+function SearchContact({ contacts, updateResults }) {
+  const [term, setTerm] = useState("");
 
-    if (searchTerm.trim() !== "") {
+  // whenever term changes, filter the contacts and send back to App.jsx
+  useEffect(() => {
+    if (term.trim() !== "") {
       const newContactList = contacts.filter((contact) => {
         return Object.values(contact)
           .join(" ")
           .toLowerCase()
-          .includes(searchTerm.toLowerCase()); //.join will join the array of object completely to a string .toLowerCase will change the values to complete lowercase. .includes check if the search term is included in the string or not
+          .includes(term.toLowerCase());
       });
-      setSearchResults(newContactList);
+      updateResults(newContactList);
     } else {
-      setSearchResults(contacts);
+      updateResults(contacts); // show all contacts when input is empty
     }
+  }, [term, contacts, updateResults]);
+
+  const handleChange = (e) => {
+    setTerm(e.target.value); // update local state
   };
 
   return (
-    <div>SearchContact</div>
-  )
+    <div className="ui search">
+      <div className="ui icon input" style={{ width: "100%" }}>
+        <input
+          type="text"
+          placeholder="Search Contacts"
+          className="prompt"
+          value={term}
+          onChange={handleChange}
+        />
+        <i className="search icon"></i>
+      </div>
+    </div>
+  );
 }
 
-export default SearchContact
+export default SearchContact;

@@ -6,16 +6,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // re
 import ContactDetail from "./ContactDetail";
 import DeleteContact from "./DeleteContact";
 import contactExp from "../api/contacts";
-import EditContact from "./EditContact";
 import AddEditContact from "../HOC/AddEditContact";
-
+import SearchContact from "./SearchContact";
 
 //-------------------------All Imports are done here-------------------------//
 
 function App() {
   const [contacts, setContacts] = useState([]);
   const [loaded, setLoaded] = useState(false); //to prevent overwriting of contacts when component re-renders.
-  const [searchTerm, setSearchTerm] = useState(""); //to search contacts
   const [searchResults, setSearchResults] = useState([]); //to show the search results
 
   const LOCAL_STORAGE_KEY = "contacts"; //key to store the contacts in local storage.
@@ -57,24 +55,6 @@ function App() {
     console.log("contact removed", id);
   };
 
-  //----------------------Searching contacts feature-------------------//
-  const searchHandler = (searchTerm) => {
-    console.log(searchTerm);
-    setSearchTerm(searchTerm);
-
-    if (searchTerm.trim() !== "") {
-      const newContactList = contacts.filter((contact) => {
-        return Object.values(contact)
-          .join(" ")
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()); //.join will join the array of object completely to a string .toLowerCase will change the values to complete lowercase. .includes check if the search term is included in the string or not
-      });
-      setSearchResults(newContactList);
-    } else {
-      setSearchResults(contacts);
-    }
-  };
-
   return (
     <>
       <div className="ui container">
@@ -83,21 +63,34 @@ function App() {
           <Header />
           <Routes>
             {/*Routes is used to group the routes and only one route will be rendered at a time */}
-            <Route path="/add-contact" element={<AddEditContact updateContacts={setContacts}/>} />
+            <Route
+              path="/add-contact"
+              element={<AddEditContact updateContacts={setContacts} />}
+            />
             {/*Route is giving the path to the separate component that in separate pages */}
             {/*element is used to pass props to the component */}
-            <Route path="/edit-contact/:id" element={<AddEditContact updateContacts={setContacts}/>} />
-            
+            <Route
+              path="/edit-contact/:id"
+              element={<AddEditContact updateContacts={setContacts} />}
+            />
+
             <Route
               path="/"
               element={
-                <ContactList
-                  contacts={searchTerm.length < 1 ? contacts : searchResults}
-                  term={searchTerm}
-                  searchKeyword={searchHandler}
-                />
+                <>
+                  <SearchContact
+                    contacts={contacts}
+                    updateResults={setSearchResults}
+                  />
+                  <ContactList
+                    contacts={
+                      searchResults.length < 1 ? contacts : searchResults
+                    }
+                  />
+                </>
               }
             />
+
             <Route path="/contact/:id" element={<ContactDetail />} />
             {/*:id is a route parameter that will match the id of the contact */}
             <Route

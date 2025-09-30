@@ -10,8 +10,10 @@ function DeleteContact(props) {
     const confirmed = window.confirm("Delete complete. Go back to home page.");
     if (confirmed) {
       navigate("/"); // navigating back to home page after deletion
+      
     }
   };
+  
   return (
     <div>
       <h2>Delete Contact?</h2>
